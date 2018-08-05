@@ -9,7 +9,7 @@ function getContent(url,id) {
             var $ = cheerio.load(body);
             content = $(".content").text().trim();
             article.create({content: content, titleId: id}).then(res => {
-                console.log(res)
+
             })
         })
 }

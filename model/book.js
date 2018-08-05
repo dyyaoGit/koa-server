@@ -1,4 +1,5 @@
-var mongoose = require("mongoose");
+var mongoose = require("mongoose")
+
 
 var book = new mongoose.Schema({
     title: {
@@ -12,7 +13,13 @@ var book = new mongoose.Schema({
     },
     desc: {
         type: String
+    },
+    type: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'category',
+        require: true
     }
 },{versionKey: false})
+
 
 module.exports = mongoose.model("book",book)
