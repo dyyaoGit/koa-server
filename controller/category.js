@@ -41,4 +41,18 @@ router.get('/category/books', async (ctx, next) => {
     await next()
 })
 
+router.get('/category/:typeId/books', async (ctx, next) => {
+    const {typeId} = ctx.params
+    const data = await categoryModel
+        .findById(typeId)
+        .populate({path: 'books'})
+    console.log(data)
+
+    ctx.body = {
+        code: 200,
+        data
+    }
+
+})
+
 module.exports = router.routes()

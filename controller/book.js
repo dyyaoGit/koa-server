@@ -14,8 +14,13 @@ exports.addBook = ctx => {
 }
 
 exports.getBook = async (ctx,next) => {
+    const {pn, size} = ctx.request.query
+
     const data = await book.find()
-    console.log(data)
+        .sort({_id:-1})
+        .limit(size)
+        .skip((pn-1)*size)
+
     ctx.body = {
         code: 200,
         data
@@ -31,10 +36,4 @@ exports.getBookById = async (ctx, next) => {
     }
 }
 
-exports.getBookByType = async (ctx, next) => {
-    const {typeId} = ctx.request.params
-    const data = await book.findByType(typeId)
-    console.log(data)
-    await next()
-}
 

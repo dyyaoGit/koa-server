@@ -10,7 +10,6 @@ router.use(logger)
 router.post('/book', addBook)
 router.get('/book', getBook)
 router.get('/book/:id', getBookById)
-router.get('/book/type/:typeId', getBookByType)
 router.use(category)
 router.use(swiper)
 

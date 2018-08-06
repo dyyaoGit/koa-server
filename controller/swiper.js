@@ -31,5 +31,18 @@ router.get('/swiper', async (ctx, next) => {
     }
 })
 
+router.get('/swiper/:id', async (ctx, next) => {
+    const {id} = ctx.params
+
+    const data = await swiperModel
+        .findById(id)
+        .populate({path: 'book'})
+
+    ctx.body = {
+        code: 200,
+        data
+    }
+})
+
 
 module.exports = router.routes()
