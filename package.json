@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "strart": "main.js",
     "dev": "node-dev main.js"
   },
   "dependencies": {
