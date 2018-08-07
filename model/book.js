@@ -18,8 +18,19 @@ var book = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'category',
         require: true
-    }
-},{versionKey: false})
+    },
+    looknums: {
+        type: Number,
+        default: 0
+    },
+    startsnums: {
+        type: Number,
+        default: 0
+    },
+    like_this_users: [{
+        type: mongoose.SchemaTypes.ObjectId
+    }]
+},{versionKey: false, timestamp: {createdAt: "createTime", updatedAt: 'updateTime'}})
 
 
 module.exports = mongoose.model("book",book)

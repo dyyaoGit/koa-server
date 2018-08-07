@@ -20,20 +20,22 @@ function getBook(options) {
         let name = $("title").text();
         let desc = $("[name=description]").attr("content");
 
-        const type = await category.findById({_id: typeId})
+        const type = await category.findById(typeId)
+        console.log(type)
 
-        book.create({title: name, desc,author,img,type: type._id}).then(res => {
-            type.update({$push: {books: res._id}})
-            $(".catalog a").each(function() {
-                var title = $(this).text();
-                var num = $(this).attr("href");
-                var getUrl = url.split("/");
-                getUrl.pop();
-                getUrl = getUrl.join("/");
-                var trueUrl = getUrl+"/"+num;
-                titles.create({title,bookId: res._id}).then(t => {
-                    getContent(trueUrl,t._id);
-                })
+        const bookData = await book.create({title: name, desc,author,img,type: type._id})
+
+        await type.update({$push: {books: bookData._id}})
+
+        $(".catalog a").each(function() {
+            var title = $(this).text();
+            var num = $(this).attr("href");
+            var getUrl = url.split("/");
+            getUrl.pop();
+            getUrl = getUrl.join("/");
+            var trueUrl = getUrl+"/"+num;
+            titles.create({title,bookId: bookData._id}).then(t => {
+                getContent(trueUrl,t._id);
             })
         })
 
