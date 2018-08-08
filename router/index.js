@@ -5,6 +5,7 @@ const {logger} = require('./koa-logger')
 const category = require('../controller/category')
 const swiper = require('../controller/swiper')
 const titles = require('../controller/title')
+const article = require('../controller/article')
 
 router.use(logger)
 
@@ -14,5 +15,6 @@ router.get('/book/:id', getBookById)
 router.use(category)
 router.use(swiper)
 router.use(titles)
+router.use(article)
 
 module.exports = router;

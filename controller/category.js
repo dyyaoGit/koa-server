@@ -13,7 +13,7 @@ router.post('/category', async (ctx,next) => {
         code: 200,
         msg: '分类插入成功'
     }
-    await next()
+
 })
 
 router.get('/category', async (ctx, next) => {
@@ -29,7 +29,6 @@ router.get('/category', async (ctx, next) => {
         code: 200,
         data
     }
-    await next()
 })
 
 router.get('/category/books', async (ctx, next) => {

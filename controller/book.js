@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const router = new Router()
 const {getBook} = require('../util/index')
 const book = require('../model/book')
+const titleModel = require('../model/titles')
 
 exports.addBook = ctx => {
     let {url,author,img,typeId} = ctx.request.body
@@ -31,9 +32,11 @@ exports.getBook = async (ctx,next) => {
 
 exports.getBookById = async (ctx, next) => {
     const data = await book.findById(ctx.params.id)
+    const titles = await titleModel.find({bookId: ctx.params.id})
     ctx.body = {
         code: 200,
-        data
+        data,
+        length: titles.length
     }
 }
 
