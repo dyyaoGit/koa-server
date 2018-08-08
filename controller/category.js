@@ -3,6 +3,7 @@ const router = new Router()
 const categoryModel = require('../model/category')
 
 router.post('/category', async (ctx,next) => {
+    console.log(1)
     let {title, icon} = ctx.request.body
     try{
         await categoryModel.create({title, icon})

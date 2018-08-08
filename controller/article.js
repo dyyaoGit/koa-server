@@ -4,7 +4,7 @@ const articleModel = require('../model/articles')
 
 router.get('/article/:id', async ctx => {
     const {id} = ctx.params
-    const data = await articleModel.findById(id)
+    const data = await articleModel.findOne({titleId: id})
     ctx.body = {
         code: 200,
         data
