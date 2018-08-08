@@ -17,6 +17,7 @@ exports.getBook = async (ctx,next) => {
     const {pn, size} = ctx.request.query
 
     const data = await book.find()
+        .populate({path: 'type'})
         .sort({_id:-1})
         .limit(size)
         .skip((pn-1)*size)
@@ -29,7 +30,7 @@ exports.getBook = async (ctx,next) => {
 }
 
 exports.getBookById = async (ctx, next) => {
-    const data = await book.find({_id: ctx.params.id})
+    const data = await book.findById(ctx.params.id)
     ctx.body = {
         code: 200,
         data
