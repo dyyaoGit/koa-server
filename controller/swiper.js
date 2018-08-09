@@ -16,7 +16,10 @@ router.post('/swiper',async (ctx, next) => {
 })
 
 router.get('/swiper', async (ctx, next) => {
-    const {pn=1,size=10} = ctx.request.query
+    let {pn=1,size=10} = ctx.request.query
+    pn=parseInt(pn)
+    size=parseInt(size)
+
 
     const data = await swiperModel
         .find()
