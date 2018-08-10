@@ -10,15 +10,15 @@ router.get('/article/:id', async ctx => {
     let data = await articleModel.findOne({titleId: id})
     const title = await titleModel.findById(data.titleId)
     // let nodeArr = towxml.toJson(data.content, 'markdown')
-    let nodeArr = towxml.md2wxml(data.content)
+    // let nodeArr = towxml.md2wxml(data.content)
 
     console.log(title)
     ctx.body = {
         code: 200,
         data: {
             article: data,
-            title: title.title,
-            nodeArr
+            title: title.title
+            // nodeArr
         }
     }
 })
