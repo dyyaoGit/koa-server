@@ -6,6 +6,9 @@ var titles = new mongoose.Schema({
     },
     bookId: {
         type: String
+    },
+    index: {
+        type: Number
     }
 },{versionKey: false})
 
