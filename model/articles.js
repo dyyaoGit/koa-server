@@ -6,6 +6,13 @@ var article = mongoose.Schema({
     },
     titleId: {
         type: String
+    },
+    bookId: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'book'
+    },
+    index: {
+        type: Number
     }
 }, {versionKey: false})
 

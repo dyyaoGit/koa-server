@@ -5,6 +5,9 @@ const article = require('../model/articles')
 const request = require("request")
 const rq = require("request-promise")
 const cheerio = require("cheerio")
+const mongoose = require('mongoose')
+
+const ObjectId = mongoose.Types.ObjectId
 
 exports.addBook = async ctx => {
     let {url,author,img,typeId} = ctx.request.body
@@ -24,7 +27,6 @@ exports.addBook = async ctx => {
     $(".catalog a")     //读取到所有的标题数组
         .each(async function(index) {
             index = parseInt(index)
-            console.log(index)
             var title = $(this).text();
             var num = $(this).attr("href");
             var getUrl = url.split("/");
@@ -36,7 +38,7 @@ exports.addBook = async ctx => {
             const $Query = cheerio.load(backData);
             const content = $Query(".content").text().trim();
             // console.log(content)
-            await article.create({content: content, titleId: t._id})
+            await article.create({content: content, titleId: t._id, bookId: ObjectId(t.bookId), index: t.index})
         })
 
     ctx.body = {
@@ -47,6 +49,8 @@ exports.addBook = async ctx => {
 
 exports.getBook = async (ctx,next) => {
     const {pn, size} = ctx.request.query
+    console.log(ctx.session)
+    ctx.session.user = 998
 
     const data = await book.find()
         .populate({path: 'type'})
