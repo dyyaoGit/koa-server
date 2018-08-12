@@ -49,8 +49,6 @@ exports.addBook = async ctx => {
 
 exports.getBook = async (ctx,next) => {
     const {pn, size} = ctx.request.query
-    console.log(ctx.session)
-    ctx.session.user = 998
 
     const data = await book.find()
         .populate({path: 'type'})

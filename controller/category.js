@@ -33,7 +33,6 @@ router.get('/category', async (ctx, next) => {
 })
 
 router.get('/category/books', async (ctx, next) => {
-    console.log(ctx.session)
     const data = await categoryModel.findBookByType()
     ctx.body = {
         code: 200,

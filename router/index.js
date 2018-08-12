@@ -6,6 +6,7 @@ const category = require('../controller/category')
 const swiper = require('../controller/swiper')
 const titles = require('../controller/title')
 const article = require('../controller/article')
+const user = require('../controller/user')
 
 router.use(logger)
 
@@ -16,5 +17,6 @@ router.use(category)
 router.use(swiper)
 router.use(titles)
 router.use(article)
+router.use(user)
 
 module.exports = router;
