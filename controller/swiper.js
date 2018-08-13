@@ -16,6 +16,8 @@ router.post('/swiper',async (ctx, next) => {
 })
 
 router.get('/swiper', async (ctx, next) => {
+    let time = Date.now().toString()
+    ctx.session.time = time
     let {pn=1,size=10} = ctx.request.query
     pn=parseInt(pn)
     size=parseInt(size)
