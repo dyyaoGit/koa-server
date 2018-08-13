@@ -3,8 +3,8 @@ const router = new Router()
 const jwt = require('jsonwebtoken')
 const articleModel = require('../model/articles')
 const titleModel = require('../model/titles')
-const Towxml = require('../util/towxml/main')
-const towxml = new Towxml()
+// const Towxml = require('../util/towxml/main')
+// const towxml = new Towxml()
 
 router.get('/article/:id', async ctx => {
     const {id} = ctx.params
@@ -24,7 +24,6 @@ router.get('/article/:id', async ctx => {
         data: {
             article: data,
             title: title.title
-            // nodeArr
         }
     }
 })
