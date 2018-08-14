@@ -11,7 +11,7 @@ const session = mongoose.Schema({
     createTime: {
         type: Date,
         index: 1,
-        expires: 86400000*7
+        expires: 86400000
     }
 },{versionKey: false, timestamp: {createdAt: "createTime", updatedAt: 'updateTime'}})
 

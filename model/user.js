@@ -3,13 +3,14 @@ const mongoose = require("mongoose")
 const user = new mongoose.Schema({
     username: String,
     avatar: String,
-    openId: {
+    open_id: {
         type: String,
         unique: true
     },
     desc: {
         type: String
     },
+    session_key: String,
     fans: [
         {
             type: mongoose.SchemaTypes.ObjectId,

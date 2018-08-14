@@ -10,9 +10,10 @@ const readlist = new mongoose.Schema({
         ref: 'book'
     },
     title: {
-        type: mongoose.SchemaTypes,ObjectId,
+        type: mongoose.SchemaTypes.ObjectId,
         ref: 'titles'
     }
 },{versionKey: false, timestamps: {createdAt: 'createdTime', updatedAt: 'updatedTime'}})
 
 module.exports = mongoose.model("readlist",readlist)
+

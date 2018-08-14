@@ -23,7 +23,24 @@ const ObjectId = mongoose.Types.ObjectId
 // }
 // go()
 
-articleModel.findOne().populate({path: 'bookId'}).then(res => {
-    console.log(res)
-})
+// articleModel.findOne().populate({path: 'bookId'}).then(res => {
+//     console.log(res)
+// })
 
+async function changeTitle () {
+    const books = await bookModel.find()
+    console.log(books.length)
+    for(let book of books) {
+        const bookId = book._id
+        const titles = await titleModel.find({bookId: bookId})
+        const length = titles.length
+        await titleModel.updateMany({bookId: bookId}, {$set: {total: length}})
+
+        // titleModel.update({bookId: bookId},{$set: {to}})
+
+
+    }
+    console.log('完成')
+}
+
+changeTitle()

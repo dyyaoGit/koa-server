@@ -9,6 +9,9 @@ var titles = new mongoose.Schema({
     },
     index: {
         type: Number
+    },
+    total: {
+        type: Number
     }
 },{versionKey: false})
 

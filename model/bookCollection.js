@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const bookCollection = new mongoose.Schema({
+const collection = new mongoose.Schema({
     user: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'user'
@@ -11,4 +11,4 @@ const bookCollection = new mongoose.Schema({
     }
 },{versionKey: false, timestamp: {createdAt: 'createdTime', updatedAt: 'updatedTime'}})
 
-module.exports = mongoose.model("bookCollection", bookCollection)
+module.exports = mongoose.model("collection", collection)
