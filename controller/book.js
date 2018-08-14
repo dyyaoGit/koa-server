@@ -65,7 +65,8 @@ exports.getBook = async (ctx,next) => {
 }
 
 exports.getBookById = async (ctx, next) => {
-    console.log(ctx.session)
+    console.log('book',ctx.session)
+    // console.log('book',ctx.session.get.msg)
     const data = await book.findById(ctx.params.id)
     const titles = await titleModel.find({bookId: ctx.params.id})
     ctx.body = {

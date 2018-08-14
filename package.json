@@ -8,6 +8,7 @@
     "dev": "node-dev main.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "cheerio": "^1.0.0-rc.2",
     "jsonwebtoken": "^8.3.0",
