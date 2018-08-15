@@ -9,7 +9,7 @@ const router = new Router()
 
 router.get('/readList', async (ctx, next) => {
     const {pn, size} = ctx.request.query
-    const token = ctx.request.headers.token
+    const token = ctx.request.headers.token||''
     let userData
 
     try {
@@ -30,11 +30,6 @@ router.get('/readList', async (ctx, next) => {
         .sort({_id:-1})
         .skip((pn-1)*size)
         .limit(size)
-
-    console.log(readHistory)
-    for(let read of readHistory) {
-
-    }
 
     ctx.body = {
         code: 200,
