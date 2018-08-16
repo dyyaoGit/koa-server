@@ -34,7 +34,7 @@ router.get('/article/:id', async ctx => {
             console.log('找到源数据', readData)
             await readData.set({title: ObjectId(id)}) //替换为当前标题})
             await readData.save()
-            console.log('新数据',test)
+
         } else {//如果没有找到这本书，那么就是刚刚开始看，去创建一条新的文档记录
             await readListModel.create({
                 user: ObjectId(userData.userId),

@@ -8,10 +8,12 @@ const router = new Router()
 
 
 router.get('/readList', async (ctx, next) => {
-    const {pn, size} = ctx.request.query
+    const {pn=1, size=10} = ctx.request.query
     const token = ctx.request.headers.token||''
     let userData
 
+
+    console.log('readlist得到的token', token)
     try {
         userData = await decodeToken(token)
     } catch (err) {
@@ -28,8 +30,8 @@ router.get('/readList', async (ctx, next) => {
         .populate({path: 'book'})
         .populate({path: 'title'})
         .sort({_id:-1})
-        .skip((pn-1)*size)
-        .limit(size)
+        .skip((pn-1)*(size-0))
+        .limit((size-0))
 
     ctx.body = {
         code: 200,

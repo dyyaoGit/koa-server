@@ -26,7 +26,7 @@ router.post('/collection', async (ctx, next) => {
             await collectionModel.create({user: ObjectId(data.userId), book: ObjectId(bookId)})
             ctx.body = {
                 code: 200,
-                msg: '图片增加成功'
+                msg: '图书增加成功'
             }
         }
         await next()
@@ -46,8 +46,8 @@ router.get('/collection', async (ctx, next) => {
         const data = await collectionModel
             .find({user: ObjectId(tokenData.userId)})
             .populate({path: 'book'})
-            .skip((pn-1)*size)
-            .limit(size)
+            .skip((pn-1)*(size-0))
+            .limit(size-0)
             .sort({_id: -1})
         ctx.body = {
             code: 200,
