@@ -24,9 +24,10 @@ router.post('/collection', async (ctx, next) => {
             }
         } else {
             await collectionModel.create({user: ObjectId(data.userId), book: ObjectId(bookId)})
+
             ctx.body = {
                 code: 200,
-                msg: '图书增加成功'
+                msg: '添加收藏成功'
             }
         }
         await next()
@@ -57,6 +58,109 @@ router.get('/collection', async (ctx, next) => {
         ctx.body = {
             code: 401,
             msg: '登陆状态失效，请重新登陆'
+        }
+    }
+})
+
+router.get('/collection/total', async (ctx, next) => {
+    const token = ctx.request.headers.token
+    try {
+        const tokenData = await decodeToken(token)
+        const data = await collectionModel
+            .find({}, {_id: 1})
+
+        ctx.body = {
+            code: 200,
+            data: data.length
+        }
+    } catch (err){
+        ctx.body = {
+            code: 500,
+            msg: err
+        }
+    }
+})
+
+router.delete('/collection/:id', async (ctx, next) => {
+    const token = ctx.request.headers.token
+    const {id} = ctx.params
+    let tokenData
+    const body = ctx.request.body
+    console.log('body', body)
+
+    try {
+        tokenData = await decodeToken(token)
+    } catch(err) {
+        ctx.body = {
+            code: 401,
+            msg: '登录状态失效，请重新登录'
+        }
+        return
+    }
+
+    try {
+        const data = await collectionModel.remove({user: ObjectId(tokenData.userId), book: ObjectId(id)})
+        if (data.n == 1) {
+            ctx.body = {
+                code: 200,
+                msg: '删除收藏成功'
+            }
+        } else {
+            ctx.body = {
+                code: 400,
+                msg: '不存在该收藏'
+            }
+        }
+
+    } catch (err) {
+        ctx.body = {
+            code: 500,
+            msg: '服务器繁忙，请稍后再试'
+        }
+    }
+})
+
+router.post('/collection/delete', async (ctx, next) => {
+    const token = ctx.request.headers.token
+    let tokenData
+    const body = ctx.request.body
+    console.log(body.arr)
+    let collections = body.arr
+
+    collections = collections.map(item => ObjectId(item))
+    console.log('body', body)
+
+    try {
+        tokenData = await decodeToken(token)
+    } catch(err) {
+        ctx.body = {
+            code: 401,
+            msg: '登录状态失效，请重新登录'
+        }
+        return
+    }
+
+    try {
+        const data = await collectionModel.remove({user: ObjectId(tokenData.userId), book: {$in: collections}})
+        console.log(data, 'data')
+        if (data.n > 0) {
+            ctx.body = {
+                code: 200,
+                msg: '删除收藏成功',
+                count: data.n
+            }
+        } else {
+            ctx.body = {
+                code: 400,
+                msg: '不存在该收藏'
+            }
+        }
+
+    } catch (err) {
+        console.log(err)
+        ctx.body = {
+            code: 500,
+            msg: '服务器繁忙，请稍后再试'
         }
     }
 })

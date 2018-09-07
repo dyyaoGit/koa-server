@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const categorySchema = new mongoose.Schema({
+    index: {
+        type: Number,
+        index: -1,
+        default: 1
+    },
     title: {
         type: String,
         unique: true
@@ -17,8 +22,15 @@ const categorySchema = new mongoose.Schema({
 },{versionKey: false, timestamp: {createdAt: "createTime", updatedAt: 'updateTime'}})
 
 categorySchema.statics.findBookByType = function (options,cb) {
+    options = options || {booksSize: 4, pn: 1, size: 2}
+    const {booksSize, pn, size} = options
+    console.log(options)
+
     return this.find()
-        .populate({path: 'books', options: {limit: 4}})
+        .skip((pn-1)*size)
+        .limit(size)
+        .sort({index: -1, _id: -1})
+        .populate({path: 'books', options: {limit: booksSize, sort: {index: -1, _id: -1}}})
         .exec(cb)
 }
 

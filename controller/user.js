@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const router = new Router()
 const axios = require('axios')
-const { wxApi, secret,authType } = require('../util/index')
+const { wxApi, secret,authType, decodeToken } = require('../util/index')
 const userModel = require('../model/user')
 
 const jwt = require('jsonwebtoken')
@@ -63,7 +63,35 @@ router.post('/login', async (ctx, next) => {
     await next()
 })
 
+router.get('/user', async (ctx, next) => {
+    let {token} = ctx.request.header || ''
+    let userData
 
+    try {  // 解密token
+        userData = decodeToken(token)
+    } catch (err) {
+        ctx.body = {
+            code: 401,
+            msg: err
+        }
+        throw Error(err)
+    }
+    let user = await userModel.findById(userData.userId, {open_id: 0})
+    console.log(userData)
+    if (!user) {
+        ctx.body = {
+            code: 403,
+            msg: '用户不存在'
+        }
+        return
+    }
+
+    ctx.body = {
+        code: 200,
+        // msg:
+        data: user
+    }
+})
 
 
 module.exports = router.routes()

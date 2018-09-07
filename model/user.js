@@ -23,10 +23,11 @@ const user = new mongoose.Schema({
             ref: 'user'
         }
     ],
-    collection: {
+    collected: {
         type: Number,
         default: 0
     }
+
 },{versionKey: false, timestamps: {createdAt: 'createdTime', updatedAt: 'updatedTime'}})
 
 module.exports = mongoose.model("user",user)

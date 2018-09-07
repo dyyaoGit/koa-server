@@ -2,6 +2,11 @@ var mongoose = require("mongoose")
 
 
 var book = new mongoose.Schema({
+    index: {
+        type: Number,
+        index: -1,
+        default: 1
+    },
     title: {
         type: String
     },

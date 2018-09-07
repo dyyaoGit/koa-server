@@ -22,7 +22,7 @@ router.get('/category', async (ctx, next) => {
 
     const data = await categoryModel
         .find()
-        .sort({_id: -1})
+        .sort({index: -1, _id: -1})
         .limit(size)
         .skip((pn-1)*size)
 
@@ -33,7 +33,12 @@ router.get('/category', async (ctx, next) => {
 })
 
 router.get('/category/books', async (ctx, next) => {
-    const data = await categoryModel.findBookByType()
+    let {pn=1, size=2, booksSize=4} = ctx.request.query
+    pn = parseInt(pn)
+    size = parseInt(size)
+    booksSize = parseInt(booksSize)
+
+    const data = await categoryModel.findBookByType({pn, size, booksSize})
     ctx.body = {
         code: 200,
         data
@@ -43,10 +48,20 @@ router.get('/category/books', async (ctx, next) => {
 
 router.get('/category/:typeId/books', async (ctx, next) => {
     const {typeId} = ctx.params
+    let {pn=1, size=4} = ctx.request.query
+    pn = parseInt(pn)
+    size = parseInt(size)
+
+
     const data = await categoryModel
         .findById(typeId)
-        .populate({path: 'books'})
-    console.log(data)
+        .populate({
+            path: 'books',
+            options: {
+                limit: size,
+                skip: (pn-1)*size,
+                sort: {index: -1, _id: -1}
+            }})
 
     ctx.body = {
         code: 200,

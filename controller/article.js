@@ -9,8 +9,8 @@ const readListModel = require('../model/readList')
 const ObjectId = mongoose.Types.ObjectId
 const {decodeToken} = require('../util/index')
 const bookModel = require('../model/book')
-// const Towxml = require('../util/towxml/main')
-// const towxml = new Towxml()
+const Towxml = require('../util/towxml/main')
+const towxml = new Towxml()
 
 router.get('/article/:id', async ctx => {
     const {id} = ctx.params
@@ -42,25 +42,31 @@ router.get('/article/:id', async ctx => {
                 title: ObjectId(id) //替换为当前标题
             })
 
-            await bookModel.update({_id: data.bookId}, {$set: {looknums}})
+            await bookModel.update({_id: data.bookId}, {$inc: {looknums: 1}})
         }
+
+        // 转化towxml需要的数据供原生小程序使用
+        let towxmlData = towxml.toJson(data.content,'markdown');
 
         ctx.body = {
             code: 200,
             data: {
                 article: data,
-                title: title.title
+                title: title.title,
+                towxmlData
             }
         }
 
     } catch (err) { //未登录状态下
         console.log('err 未登录')
         console.log(err)
+        let towxmlData = towxml.toJson(data.content,'markdown');
         ctx.body = {
             code: 200,
             data: {
                 article: data,
-                title: title.title
+                title: title.title,
+                towxmlData
             }
         }
     }

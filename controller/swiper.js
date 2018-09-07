@@ -4,10 +4,10 @@ const bookModel = require('../model/book')
 const swiperModel = require('../model/swiper')
 
 router.post('/swiper',async (ctx, next) => {
-    const {title, img, book, sort=100} = ctx.request.body
+    const {title, img, book, index = 1} = ctx.request.body
 
     const bookItem = await bookModel.findById(book)
-    await swiperModel.create({title, img, book: bookItem._id,sort})
+    await swiperModel.create({title, img, book: bookItem._id, index: index})
     ctx.body = {
         code: 200,
         msg: '轮播图插入成功'
@@ -16,15 +16,14 @@ router.post('/swiper',async (ctx, next) => {
 })
 
 router.get('/swiper', async (ctx, next) => {
-    let time = Date.now().toString()
-    ctx.session.msg = time + '一条信息'
+
     let {pn=1,size=10} = ctx.request.query
     pn=parseInt(pn)
     size=parseInt(size)
 
     const data = await swiperModel
         .find()
-        .sort({_id: -1})
+        .sort({index: -1, _id: -1})
         .skip((pn-1)*size)
         .limit(size)
         .populate({path: 'book'})

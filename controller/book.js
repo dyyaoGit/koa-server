@@ -62,7 +62,7 @@ exports.getBook = async (ctx,next) => {
 
     const data = await book.find()
         .populate({path: 'type'})
-        .sort({_id:-1})
+        .sort({index: -1, _id:-1})
         .limit(size)
         .skip((pn-1)*size)
 
