@@ -67,7 +67,7 @@ router.get('/collection/total', async (ctx, next) => {
     try {
         const tokenData = await decodeToken(token)
         const data = await collectionModel
-            .find({}, {_id: 1})
+            .find({user: ObjectId(tokenData.userId)}, {_id: 1})
 
         ctx.body = {
             code: 200,

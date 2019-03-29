@@ -22,7 +22,7 @@ router.get('/swiper', async (ctx, next) => {
     size=parseInt(size)
 
     const data = await swiperModel
-        .find()
+        .find({status: 1})
         .sort({index: -1, _id: -1})
         .skip((pn-1)*size)
         .limit(size)
