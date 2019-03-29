@@ -243,6 +243,11 @@ router.post('/phoneValidator', async ctx => {
                 code: 400,
                 msg: '短信发送过于频繁'
             }
+        } else {
+            ctx.body = {
+                code: 400,
+                msg: err.code
+            }
         }
         console.log(err, '处理错误');
     }
