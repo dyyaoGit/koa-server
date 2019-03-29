@@ -2,7 +2,16 @@ const mongoose = require("mongoose")
 
 const user = new mongoose.Schema({
     username: String,
-    avatar: String,
+    password: {
+        type: String
+    },
+    phone: {
+        type: String,
+        unique: true
+    },
+    avatar: {
+        type: String
+    },
     open_id: {
         type: String,
         unique: true
@@ -27,7 +36,6 @@ const user = new mongoose.Schema({
         type: Number,
         default: 0
     }
-
 },{versionKey: false, timestamps: {createdAt: 'createdTime', updatedAt: 'updatedTime'}})
 
 module.exports = mongoose.model("user",user)
