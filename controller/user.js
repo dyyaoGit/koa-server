@@ -6,6 +6,11 @@ const userModel = require('../model/user')
 const smsClient = require('../sms/main')
 const validator = require('validator')
 const smsModel = require('../model/sms')
+const cors = require('koa-cors')
+
+router.use(cors({
+
+}))
 
 const jwt = require('jsonwebtoken')
 
