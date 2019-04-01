@@ -13,8 +13,7 @@ const user = new mongoose.Schema({
         type: String
     },
     open_id: {
-        type: String,
-        unique: true
+        type: String
     },
     desc: {
         type: String

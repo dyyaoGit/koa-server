@@ -131,6 +131,7 @@ router.post('/login_html', async ctx => {
 
 router.post('/register', async ctx => {
     const {password, phone, code} = ctx.request.body
+    console.log(1);
 
     console.log(ctx.request.body);
 
@@ -158,7 +159,8 @@ router.post('/register', async ctx => {
                 if(smsMsg.sixCode === code){
                     await userModel.create({
                         password,
-                        phone
+                        phone,
+                        open_id: Date.now() + ''
                     })
                     ctx.body = {
                         code: 200,
