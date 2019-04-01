@@ -130,11 +130,11 @@ router.post('/login_html', async ctx => {
 })
 
 router.post('/register', async ctx => {
-    const {username, password, phone, code} = ctx.request.body
+    const {password, phone, code} = ctx.request.body
 
     console.log(ctx.request.body);
 
-    if(!phone||!username||!password||!code){
+    if(!phone||!password||!code){
         ctx.body = {
             code: 400,
             msg: '缺少必要参数'
@@ -157,7 +157,6 @@ router.post('/register', async ctx => {
             if(Date.now() - new Date(smsMsg.updatedTime).getTime() < 1000 * 60 * 5) { // 小于5分钟内
                 if(smsMsg.sixCode === code){
                     await userModel.create({
-                        username,
                         password,
                         phone
                     })

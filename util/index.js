@@ -8,7 +8,7 @@ exports.wxApi = {
 }
 
 exports.authType = {
-    expiresIn: 86400000,
+    expiresIn: 86400000 * 7,
     algorithm: 'HS384'
 }
 
