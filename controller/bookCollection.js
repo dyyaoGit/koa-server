@@ -50,9 +50,11 @@ router.get('/collection', async (ctx, next) => {
             .skip((pn-1)*(size-0))
             .limit(size-0)
             .sort({_id: -1})
+        const count = await collectionModel.countDocuments({user: ObjectId(userData.userId)})
         ctx.body = {
             code: 200,
-            data
+            data,
+            count
         }
     } catch (err) {
         ctx.body = {

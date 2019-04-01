@@ -11,6 +11,7 @@ const {decodeToken} = require('../util/index')
 const bookModel = require('../model/book')
 const Towxml = require('../util/towxml/main')
 const towxml = new Towxml()
+const likeModel = require('../model/like')
 
 router.get('/article/:id', async ctx => {
     const {id} = ctx.params
@@ -34,7 +35,6 @@ router.get('/article/:id', async ctx => {
             console.log('找到源数据', readData)
             await readData.set({title: ObjectId(id)}) //替换为当前标题})
             await readData.save()
-
         } else {//如果没有找到这本书，那么就是刚刚开始看，去创建一条新的文档记录
             await readListModel.create({
                 user: ObjectId(userData.userId),
@@ -47,13 +47,18 @@ router.get('/article/:id', async ctx => {
 
         // 转化towxml需要的数据供原生小程序使用
         let towxmlData = towxml.toJson(data.content,'markdown');
+        let likeData = await likeModel.findOne({
+            title: ObjectId(id)
+        })
+        let likeStatus = likeData?1:0
 
         ctx.body = {
             code: 200,
             data: {
                 article: data,
                 title: title.title,
-                towxmlData
+                towxmlData,
+                likeStatus
             }
         }
 
@@ -66,7 +71,8 @@ router.get('/article/:id', async ctx => {
             data: {
                 article: data,
                 title: title.title,
-                towxmlData
+                towxmlData,
+                likeStatus: 0
             }
         }
     }

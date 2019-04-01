@@ -6,6 +6,10 @@ const userModel = require('../model/user')
 const smsClient = require('../sms/main')
 const validator = require('validator')
 const smsModel = require('../model/sms')
+const likeModel = require('../model/like')
+const collectionModel = require('../model/bookCollection')
+const readListModel = require('../model/readList')
+const ObjectId = require('mongoose').Types.ObjectId
 // const cors = require('koa-cors')
 
 const jwt = require('jsonwebtoken')
@@ -72,7 +76,7 @@ router.get('/user', async (ctx, next) => {
     let userData
 
     try {  // 解密token
-        userData = decodeToken(token)
+        userData = await decodeToken(token)
     } catch (err) {
         ctx.body = {
             code: 401,
@@ -80,8 +84,10 @@ router.get('/user', async (ctx, next) => {
         }
         throw Error(err)
     }
-    let user = await userModel.findById(userData.userId, {open_id: 0})
     console.log(userData)
+    let user = await userModel.findById(ObjectId(userData.userId))
+    console.log(userData)
+    console.log(user, 'user')
     if (!user) {
         ctx.body = {
             code: 403,
@@ -89,11 +95,25 @@ router.get('/user', async (ctx, next) => {
         }
         return
     }
+    const likeCount = await likeModel.countDocuments({
+        user: userData.userId
+    })
+    const collectionCount = await collectionModel.countDocuments({
+        user: userData.userId
+    })
+    const readCount = await readListModel.countDocuments({
+        user: userData.userId
+    })
 
     ctx.body = {
         code: 200,
         // msg:
-        data: user
+        data: {
+            user,
+            like: likeCount,
+            read: readCount,
+            collection: collectionCount
+        }
     }
 })
 

@@ -9,6 +9,7 @@ const article = require('../controller/article')
 const user = require('../controller/user')
 const collection = require('../controller/bookCollection')
 const readList = require('../controller/readList')
+const like = require('../controller/like')
 
 router.use(logger)
 
@@ -22,5 +23,6 @@ router.use(article)
 router.use(user)
 router.use(collection)
 router.use(readList)
+router.use('/like', like)
 
 module.exports = router;

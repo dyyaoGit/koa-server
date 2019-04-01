@@ -33,9 +33,13 @@ router.get('/readList', async (ctx, next) => {
         .skip((pn-1)*(size-0))
         .limit((size-0))
 
+
+    let count = await readListModel.countDocuments({user: ObjectId(userData.userId)})
+
     ctx.body = {
         code: 200,
-        data: readHistory
+        data: readHistory,
+        count
     }
 
 })
