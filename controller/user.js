@@ -110,9 +110,9 @@ router.get('/user', async (ctx, next) => {
         // msg:
         data: {
             user,
-            like: likeCount,
-            read: readCount,
-            collection: collectionCount
+            like: likeCount+'',
+            read: readCount+'',
+            collection: collectionCount + ''
         }
     }
 })
