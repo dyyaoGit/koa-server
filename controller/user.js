@@ -327,5 +327,41 @@ router.put('/user', async ctx => {
 
 // 修改个人信息结束
 
+router.post('/changePassword', async ctx => {
+    try{
+        const {token} = ctx.request.headers || ctx.request.body || ''
+        const {password, changePassword} = ctx.request.body
+        const userData = await decodeToken(token)
+
+        if(userData) {
+            const userId = userData.userId
+            const findUser = await userModel.findById(userId)
+            if(findUser.password == password){
+                await findUser.$set({password: changePassword})
+                await findUser.save()
+                ctx.body = {
+                    code: 200,
+                    msg: '密码修改成功'
+                }
+                return
+            }
+            ctx.body = {
+                code: 400,
+                msg: '原密码不匹配'
+            }
+            return
+        }
+        ctx.body = {
+            code: 401,
+            msg: '未登录不能修改密码'
+        }
+    } catch (err){
+        ctx.body = {
+            code: 500,
+            msg: err
+        }
+    }
+})
+
 
 module.exports = router.routes()
