@@ -10,7 +10,8 @@ const user = new mongoose.Schema({
         unique: true
     },
     avatar: {
-        type: String
+        type: String,
+        default: 'http://image.yaojunrong.com/zhenxiang.jpg'
     },
     open_id: {
         type: String

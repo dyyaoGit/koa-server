@@ -276,5 +276,56 @@ router.post('/phoneValidator', async ctx => {
 
 })
 
+// 修改个人信息开始
+router.put('/user', async ctx => {
+    try {
+        const {token} = ctx.request.headers||ctx.request.body||''
+        const userData = await decodeToken(token)
+        const body = ctx.request.body
+        const keys = Object.keys(body)
+        const key = keys[0]
+        const changeProp = body[key]
+        console.log(body)
+
+        if(userData){
+            if(key== 'password'){
+                ctx.body = {
+                    code: 400,
+                    msg: '密码不能通过修改个人信息接口修改'
+                }
+                return
+            }
+            const updateData = await userModel.update({_id: userData.userId},{$set: {[key]: changeProp}})
+
+            console.log(updateData);
+            // const findUser = await userModel.findOne({_id: userData.userId})
+            // console.log(findUser);
+            // console.log(changeProp, 'changeProp');
+            // console.log(key, 'key');
+            // await findUser.$set({key: changeProp})
+            // await findUser.save()
+            ctx.body = {
+                code: 200,
+                msg: `${key}修改成功`
+            }
+        } else {
+            ctx.body = {
+                code: 401,
+                msg: '用户未登录'
+            }
+        }
+
+
+    } catch(err){
+        console.log(err);
+        ctx.body = {
+            msg: err.code,
+            code: 500
+        }
+    }
+})
+
+// 修改个人信息结束
+
 
 module.exports = router.routes()
